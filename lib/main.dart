@@ -15,7 +15,7 @@ void main() {
 }
 
 class QuizApp extends StatelessWidget {
-  const QuizApp({super.key});
+  const QuizApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

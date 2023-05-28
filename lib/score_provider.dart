@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class ScoreProvider with ChangeNotifier {
   int _score = 0;

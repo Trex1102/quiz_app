@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz_app/quiz_page.dart';
 import 'package:quiz_app/score_provider.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({super.key});
+  const ResultPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final scoreProvider = Provider.of<ScoreProvider>(context);
-    final int score = scoreProvider.score;
-    const int totalQuestions = 5; // Replace with your actual total number of questions
 
     return Scaffold(
       appBar: AppBar(
@@ -19,24 +18,23 @@ class ResultPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Quiz Complete!',
-              style: TextStyle(
+            Text(
+              'Your Score: ${scoreProvider.score}',
+              style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16.0),
-            Text(
-              'Your Score: $score / $totalQuestions',
-              style:const  TextStyle(fontSize: 18.0),
-            ),
-            const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
-                // Reset the score and navigate back to the quiz page
-                scoreProvider.resetScore();
-                Navigator.pop(context);
+                scoreProvider.resetScore(); // Reset the score
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizPage(),
+                  ),
+                );
               },
               child: const Text('Retry Quiz'),
             ),
