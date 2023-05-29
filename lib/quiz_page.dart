@@ -21,6 +21,7 @@ class _QuizPageState extends State<QuizPage> {
   late double _correctAnswer;
   late int _countdown;
   late double _globalCountDown;
+  final double _globalTimerCount = 120;
   late List<String> options;
   int life = 3;
 
@@ -29,7 +30,7 @@ class _QuizPageState extends State<QuizPage> {
     super.initState();
     generateQuestion();
     _countdown = 5;
-    _globalCountDown = 20; // Adjust the global countdown time as needed
+    _globalCountDown = 120; // Adjust the global countdown time as needed
     startTimer();
     startGlobalTimer();
   }
@@ -75,13 +76,13 @@ class _QuizPageState extends State<QuizPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultPage(), // Replace ResultPage() with your actual result page
+        builder: (context) => const ResultPage(), // Replace ResultPage() with your actual result page
       ),
     );
   }
 
   void generateQuestion() {
-    _question = GenerateQuestion.generate();
+    _question = GenerateQuestion.generateMediumQuestions();
     _correctAnswer = GenerateQuestion.answer(_question);
     options = GenerateOptions.generateOptions(_correctAnswer);
   }
@@ -110,25 +111,25 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                const Text(
-                  'Total Time Remaining:',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 8.0),
+                  SizedBox(
+                    width: 220.0,
+                    child: FAProgressBar(
+                      currentValue: _globalCountDown,
+                      maxValue: _globalTimerCount,
+                      backgroundColor: Colors.grey,
+                      progressColor: Colors.amber,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                FAProgressBar(
-                  currentValue: _globalCountDown,
-                  maxValue: 20,
-                  backgroundColor: Colors.grey,
-                  progressColor: Colors.amber,
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 16.0),
             Text(
@@ -140,21 +141,22 @@ class _QuizPageState extends State<QuizPage> {
             ),
             const SizedBox(height: 16.0),
             Text(
-              'Time Remaining: $_countdown',
+              '$_countdown',
               style: const TextStyle(
-                fontSize: 24.0,
+                fontSize: 44.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 120.0),
+
+            Text(
+              ' $_question',
+              style: const TextStyle(
+                fontSize: 34.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16.0),
-            Text(
-              'Question: $_question',
-              style: const TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -167,7 +169,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   child: Text(options[0]),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     answerQuestion(double.parse(options[1]));
@@ -179,7 +181,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -192,7 +194,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   child: Text(options[2]),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     answerQuestion(double.parse(options[3]));

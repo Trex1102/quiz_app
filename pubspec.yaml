@@ -39,6 +39,7 @@ dependencies:
   math_expressions: ^2.0.1
   timer_count_down: ^2.2.0
   flutter_animation_progress_bar: ^2.1.1
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
